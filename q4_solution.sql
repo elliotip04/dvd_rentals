@@ -78,7 +78,7 @@ fav_three_actors as ( --top three favourite actors from each customer, based on 
 				 ) actors_list
 			group by customer_id, actor_name) rank_actors
 		where row_num < 4 ) flat_row
-	group by customer_id
+	group by 1
 ),
 
 first_latest_film as ( --to obtain the first film name and latest film name each customer rented
