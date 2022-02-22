@@ -13,19 +13,22 @@ This table is designed to provide a holistic view of a customers activity and sh
 --Any other interesting dimensions or facts you might want to include.
 
 Explanation:
-- In this 'customer_lifecycle' table, each customer should have only 1 row of data as customer id is set as primary key. 
-- For each group of metrics asked as requirements, I saved them in seperate cte tables and left joined each cte to a distinct list of users obtained 
+1) In this 'customer_lifecycle' table, each customer should have only 1 row of data as customer id is set as primary key. 
+
+2) For each group of metrics asked as requirements, I saved them in seperate cte tables and left joined each cte to a distinct list of users obtained 
 from the central 'rental' table for ease of logic tracking.
-- I noticed that there are 71 customers (i.e. customer 61,191) whose first 30 days rentals' payment cannot be referenced from the 'payment' table 
+
+3) I noticed that there are 71 customers (i.e. customer 61,191) whose first 30 days rentals' payment cannot be referenced from the 'payment' table 
 by joining on rental ids. Hence, I set their first 30 day revenue to zero.
-- Another thing I noticed with the rental date, there are rental records from May-August 2005, then it jumps straight to Feb 2006. This should be 
+
+4) Another thing I noticed with the rental date, there are rental records from May-August 2005, then it jumps straight to Feb 2006. This should be 
 investigated further in a real life setting, which could suggest missing data.
 
-- As for the interesting dimension, I decided to look at the change in revenue generated on each customer between the 30th day to latest rental day.
+5) As for the interesting dimension, I decided to look at the change in revenue generated on each customer between the 30th day to latest rental day.
 Customers with higher revenue generated per day outside of the first 30 days (positive % increase) could mean they are more likely to be 
 loyal/long term customers. Customers with slowing negative % increase on revenue generated could mean they are less willing to spend money in the 
 long run and the company should think of ways to retain these customers, perhaps via targeted movie recommendation. 
-- Example: customer 29 spent an $21.93 in the first 30 days, which gives a revenue of $0.731/day. Between 30th day and last rental day (Feb 14 2006), 
+For example, customer 29 spent an $21.93 in the first 30 days, which gives a revenue of $0.731/day. Between 30th day and last rental day (Feb 14 2006), 
 the customer spent $116.72 ($138.65 - $21.93) and a revenue of $0.498 per day. Hence, there is a 31.87% drop in revenue from customer 29 per day 
 after the first 30 days.
 */
