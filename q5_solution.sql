@@ -82,9 +82,9 @@ select
 left join public.rental r using (customer_id)
 ;
 
--- Step 4: When the 'staging_rental' table is parepared, we create a 'customer_life_cycle_incremental' table where we load the 
+-- Step 4: When the 'staging_rental' table is prepared, we create a 'customer_life_cycle_incremental' table where we load the 
 -- output of the customer lifecycle scripts (from Q4) after running them on the 'staging_rental table' (Please note that the scripts in 
--- Q4 are run on all unique customers from 'rental', but what is suggested here in this step is to run the Q4 scripts on 'staging_rental', 
+-- Q4 are run on all unique customers from 'rental', but what is suggested in this step is to run the Q4 scripts on 'staging_rental', 
 -- meaning we are only processing the incremental rows that are added every hour). The desired output of the 'customer_lifecycle_incremental' 
 -- table should look like this: 
 
@@ -159,8 +159,8 @@ left join revenue_growth_rate rgr on sr.customer_id = rgr.customer_id
 -- Step 5: 
 -- Insert the *updated* customer lifecycle row into the 'customer_lifecycle' table.
 -- For instance, customer 3 will have 2 rows at this stage (old and new) in the 'customer_lifecycle' table.
--- Delete the old record from the 'customer_lifecycle' table
--- Now, the 'customer_lifecycle' table will have an *updated* record for every existing customer and a new record for every new customer
+-- Delete the old record from the 'customer_lifecycle' table.
+-- Now, the 'customer_lifecycle' table will have an *updated* record for every existing customer and a new record for every new customer.
 
 -- new *updated* 'customer_lifecycle'
 -- | customer_id |...|   latest_rent_date    |
