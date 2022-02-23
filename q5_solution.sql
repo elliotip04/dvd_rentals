@@ -96,11 +96,11 @@ left join public.rental r using (customer_id)
 Drop table if exists public.customer_lifecycle_incremental;
 
 Create table public.customer_lifecycle_incremental (
-	customer_id int2 not null primary key,
+	customer_id integer not null primary key,
 	first_rent_date timestamp not null,
 	thirty_days_date timestamp not null,
 	thirty_days_revenue numeric(10,5) not null,
-	value_tier int2 not null,
+	value_tier integer not null,
 	first_film varchar(255) not null,
 	latest_film varchar(255) not null,
 	last_rental_date timestamp not null,

@@ -43,7 +43,7 @@ rental duration ranked higher.
 Drop table if exists public.film_recommendations;
 
 Create table public.film_recommendations (
-	customer_id int2 not null,
+	customer_id integer not null,
 	customer_name varchar(50) not null,
 	category varchar(25) not null,
 	title varchar(255) not null,
