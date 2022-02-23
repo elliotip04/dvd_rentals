@@ -4,13 +4,17 @@ Q5) Imagine that new rental data is being loaded into the database every hour.
 --re-purpose your logic for the customer_lifecycle table to process the new data in an incremental manner to a new table customer_lifecycle_incremental.
 */
 
--- Step 1: At the end of each run (before the next hourly data reaches the 'rental' table), we should save the latest rental date from 
--- the 'rental' table in order for us to identify the new data in the next run.
+-- Step 1: At the end of each run (before the next hourly data reaches the 'rental' table), we should insert the latest rental date from 
+-- the 'rental' table which can be used in the next run as a condition to identify the new data.
 
 Drop table if exists public.latest_rental_date;
 
+Create table public.latest_rental_date (
+    rental_date timestamp without time zone not null,
+);
+
+Insert into public.latest_rental_date
 Select max(rental_date) latest_date
-Into public.latest_rental_date 
 from public.rental
 ;
 
