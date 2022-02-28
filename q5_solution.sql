@@ -78,12 +78,15 @@ select
 	coalesce(r.customer_id, staging.customer_id) as customer_id,
 	coalesce(r.rental_id, staging.rental_id) as rental_id,
 	coalesce(r.rental_date, staging.rental_date) as rental_date,
-	coalesce(r.inventory_id, staging.inventory_id) inventory_id,
-	coalesce(r.return_date, staging.return_date) return_date,
-	coalesce(r.staff_id, staging.staff_id) staff_id,
-	coalesce(r.last_update, staging.last_update) last_update
+	coalesce(r.inventory_id, staging.inventory_id) as inventory_id,
+	coalesce(r.return_date, staging.return_date) as return_date,
+	coalesce(r.staff_id, staging.staff_id) as staff_id,
+	coalesce(r.last_update, staging.last_update) as last_update
 	from public.staging_rental staging
 left join public.rental r using (customer_id)
+;
+
+Create unique index idx_unq_staging_rental_rental_date_inventory_id_customer_id on public.staging_rental using btree (rental_date, inventory_id, customer_id)
 ;
 
 -- Step 4: When the 'staging_rental' table is prepared, we create a 'customer_life_cycle_incremental' table where we load the 
