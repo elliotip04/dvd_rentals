@@ -46,7 +46,8 @@ where rental_date > (select max(latest_date) from public.latest_rental_date)
 -- For example -> customer 3 and customer 6 both have one new record. customer 3 is an existing customer while customer 6 is a new customer.
 -- We need to bring in all previous records of customer 3 by doing a left join from 'staging_rental' to 'rental' on customer id.
 -- As customer 6 is a new customer, coalesce() helps to retain the information from the left table after the left join as every column
--- from the right table will be NULLs.
+-- from the right table will be NULLs. Afterwards, do a UNION between 'staging_rental' and desired 'staging_rental' to insert only the 
+-- new rows into 'staging_rental'.
 
 -- 'rental' 
 -- | customer_id |      rental_date      |    ...   | 
@@ -70,6 +71,9 @@ where rental_date > (select max(latest_date) from public.latest_rental_date)
 -- |      3      |2006-02-14 16:18:34.000|new record|
 -- |      6      |2006-02-14 16:30:44.000|new record|
 
+Insert into public.staging_rental
+select * from public.staging_rental
+union 
 select 
 	coalesce(r.customer_id, staging.customer_id) as customer_id,
 	coalesce(r.rental_id, staging.rental_id) as rental_id,
